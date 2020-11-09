@@ -22,27 +22,31 @@ $user_id = $_SESSION['id'];
                         <span class="file-icon">
                             <i class="fas fa-upload"></i>
                         </span>
+                        <!-- choose picture -->
                         <span class="file-label">
                             Choose a file…
                         </span>
                         </span>
+                        <!-- Name file -->
                         <span class="file-name">
                         Screen Shot 2017-07-29 at 15.54.25.png
                         </span>
                     </label>
                 </div>
-                <div class="column is-two-fifths" >
+                <div class="column is-half is-offset-one-quarter" >
+                <!-- User name -->
                     <label class="label">Name</label>
                         <div class="control">
-                            <input class="input is-info" type="text" placeholder="Name">
+                            <input class="input is-success" type="text" placeholder="Name">
                         </div>
                     </div>
                 </div>
-                <div class="column is-two-fifths">
+                <div class="column is-half is-offset-one-quarter">
                 <div class="field">
+                <!-- Username -->
                     <label class="label">Username</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input is-info" type="text" placeholder="Username">
+                        <input class="input is-success" type="text" placeholder="Username">
                         <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                         </span>
@@ -52,10 +56,11 @@ $user_id = $_SESSION['id'];
                     </div>
                     </div>
                 </div>
-                <div class="column is-two-fifths"> 
+                <div class="column is-half is-offset-one-quarter"> 
+                <!-- user e-mail -->
                     <label class="label">Email</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input is-info" type="text" placeholder="Email">
+                        <input class="input is-success" type="text" placeholder="Email">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                                 </span>
@@ -66,31 +71,29 @@ $user_id = $_SESSION['id'];
                     </div>
                 </div>   
                     <div class="field">
-                    <div class="column is-two-fifths">
+                    <div class="column is-half is-offset-one-quarter">
+                    <!-- user adress -->
                         <label class="label">Address</label>
                         <div class="control">
-                        <input class="input is-info" type="text" placeholder="address">
+                        <input class="input is-success" type="text" placeholder="address">
                     </div>
                 </div>
             </div>
                     
                     <div class="field">
+                    <!-- about user -->
                     <label class="label">Message</label>
                     <div class="control">
-                        <textarea class="textarea" placeholder="Textarea"></textarea>
+                        <textarea class="textarea is-success is-small" placeholder="Textarea"></textarea>
                     </div>
                     </div>
                     <div class="field is-grouped is-grouped-centered">
-                    <p class="control">
-                        <a class="button is-primary">
+                        <button type="submit" class="control button is-success is-success name="advert_submit"> 
                         Submit
-                        </a>
-                    </p>
-                    <p class="control">
-                        <a class="button is-light">
+                        </button>
+                        <div class="field is-grouped is-grouped-centered">
+                        <button type="cancel" class="control button is-black" name="cancel"> 
                         Cancel
-                        </a>
-                    </p>
                     </div>
                 </tr>
             </thead>
@@ -100,9 +103,6 @@ $user_id = $_SESSION['id'];
                 ?> -->
             </tbody>
         </table>
-    </div>
-    <div class="col-4">
-        <h4>Formulaire ici</h4>
     </div>
 </div>
 

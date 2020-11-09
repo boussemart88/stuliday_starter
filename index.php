@@ -25,7 +25,7 @@ require 'includes/header.php';
 // }
 // echo $content;
 ?>
- <section class="hero is-medium is-primary">
+ <section class="hero is-medium is-black">
   <div class="hero-body">
     <div class="container">
       <div class="columns">

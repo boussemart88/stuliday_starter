@@ -15,7 +15,7 @@
 
 <body>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar is-success" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="index.php">
             <img src="images/stuliday-logo-dark.png" width=50 height=50>
@@ -53,8 +53,12 @@
                     <a href="profil.php" class="navbar-item">
                         Profile page
                     </a>
-                    <a href="creatproduct.php"class="navbar-item">
+                    <a href="advert.php"class="navbar-item">
                         Create a new ad
+                    </a>
+                    <a href="advert.php"class="navbar-item">
+                    <a href="myadvert.php" class="navbar-item">
+                        My advert
                     </a>
                     <hr class="navbar-divider">
                     <a class="navbar-item" href="?logout">

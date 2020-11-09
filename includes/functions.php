@@ -62,29 +62,29 @@ function connexion($email, $password)
 function affichageProduits()
 {
     global $conn;
-    $sth = $conn->prepare('SELECT p.*,c.categories_name,u.username FROM products AS p LEFT JOIN categories AS c ON p.category_id = c.categories_id LEFT JOIN users AS u ON p.user_id = u.id');
+    $sth = $conn->prepare('SELECT p.*,c.categories_name,u.fullname FROM advert AS p LEFT JOIN categories AS c ON p.category_id = c.categories_id LEFT JOIN users AS u ON p.user_id = u.id');
     $sth->execute();
 
     $products = $sth->fetchAll(PDO::FETCH_ASSOC);
     foreach ($products as $product) {
         ?>
 <tr>
-    <th scope="row"><?php echo $product['products_id']; ?>
+    <th scope="row"><?php echo $product['advert_id']; ?>
     </th>
-    <td><?php echo $product['products_name']; ?>
+    <td><?php echo $product['advert_name']; ?>
     </td>
     <td><?php echo $product['description']; ?>
     </td>
     <td><?php echo $product['price']; ?>
     </td>
-    <td><?php echo $product['city']; ?>
+    <td><?php echo $product['adress']; ?>
     </td>
     <td><?php echo $product['categories_name']; ?>
     </td>
-    <td><?php echo $product['username']; ?>
+    <td><?php echo $product['fullname']; ?>
     </td>
     <td> <a
-            href="product.php/?id=<?php echo $product['products_id']; ?>">Afficher
+            href="advert.php/?id=<?php echo $product['advert_id']; ?>">Afficher
             article</a>
     </td>
 </tr>
@@ -100,11 +100,11 @@ function affichageProduit($id)
     $product = $sth->fetch(PDO::FETCH_ASSOC); ?>
 <div class="row">
     <div class="col-12">
-        <h1><?php echo $product['products_name']; ?>
+        <h1><?php echo $product['advert_name']; ?>
         </h1>
         <p><?php echo $product['description']; ?>
         </p>
-        <p><?php echo $product['city']; ?>
+        <p><?php echo $product['adress']; ?>
         </p>
         <button class="btn btn-danger"><?php echo $product['price']; ?> </button>
     </div>
@@ -112,7 +112,7 @@ function affichageProduit($id)
 <?php
 }
 
-function ajoutProduits($name, $description, $price, $city, $category, $user_id)
+function ajoutProduits($name, $description, $price, $adress, $category, $user_id)
 {
     global $conn;
     // Vérification du prix (doit être un entier, et inférieur à 1 million d'euros)
@@ -120,21 +120,25 @@ function ajoutProduits($name, $description, $price, $city, $category, $user_id)
         // Utilisation du try/catch pour capturer les erreurs PDO/SQL
         try {
             // Création de la requête avec tous les champs du formulaire
-            $sth = $conn->prepare('INSERT INTO products (products_name,description,price,city,category_id,user_id) VALUES (:products_name, :description, :price, :city, :category_id, :user_id)');
-            $sth->bindValue(':products_name', $name, PDO::PARAM_STR);
+            $sth = $conn->prepare('INSERT INTO advert (advert_name,description,price,adress,category_id,user_id) VALUES (:advert_name, :description, :price, :adress, :category_id, :user_id)');
+            $sth->bindValue(':advert_name', $name, PDO::PARAM_STR);
             $sth->bindValue(':description', $description, PDO::PARAM_STR);
             $sth->bindValue(':price', $price, PDO::PARAM_INT);
-            $sth->bindValue(':city', $city, PDO::PARAM_STR);
+            $sth->bindValue(':adress', $adress, PDO::PARAM_STR);
             $sth->bindValue(':category_id', $category, PDO::PARAM_INT);
             $sth->bindValue(':user_id', $user_id, PDO::PARAM_INT);
 
             // Affichage conditionnel du message de réussite
             if ($sth->execute()) {
-                echo "<div class='alert alert-success'> Votre article a été ajouté à la base de données </div>";
-                header('Location: products.php');
+                echo "<div class='alert alert-success'> Votre article a été ajouté </div>";
+                header('Location: myadvert.php');
             }
         } catch (PDOException $e) {
             echo 'Error: '.$e->getMessage();
         }
     }
 }
+
+// function getCreatAt(): \DateTime {
+//     return new \DateTime($this->created_at);
+// }
