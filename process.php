@@ -35,7 +35,7 @@
             $user_id = $_SESSION['id'];
             $id = strip_tags($_POST['advert_id']);
 
-            modifProduits($name, $description, $price, $city, $category, $id, $user_id);
+            modifAdvert($name, $description, $price, $city, $category, $id, $user_id);
         }
     } elseif (isset($_POST['advert_delete'])) {
         // echo "<div class='alert alert-danger'> Vous tentez de supprimer l'article n°".$_POST['product_id'].'</div>';

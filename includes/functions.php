@@ -10,17 +10,17 @@ function inscription($email, $password1, $password2)
         $res1 = $conn->query($sql1);
         $count_email = $res1->fetchColumn();
         if (!$count_email) {
-                if ($password1 === $password2) {
-                    $password1 = password_hash($password1, PASSWORD_DEFAULT);
-                    $sth = $conn->prepare('INSERT INTO users (email, password) VALUES (:email,:password)');
-                    $sth->bindValue(':email', $email);
-                    $sth->bindValue(':password', $password1);
-                    $sth->execute();
-                    echo "<div class='alert alert-success mt-2'> L'utilisateur a bien été enregistré, vous pouvez désormais vous connecter</div>";
-                } else {
-                    echo 'Les mots de passe ne concordent pas !';
-                    unset($_POST);
-                }
+            if ($password1 === $password2) {
+                $password1 = password_hash($password1, PASSWORD_DEFAULT);
+                $sth = $conn->prepare('INSERT INTO users (email, password) VALUES (:email,:password)');
+                $sth->bindValue(':email', $email);
+                $sth->bindValue(':password', $password1);
+                $sth->execute();
+                echo "<div class='alert alert-success mt-2'> L'utilisateur a bien été enregistré, vous pouvez désormais vous connecter</div>";
+            } else {
+                echo 'Les mots de passe ne concordent pas !';
+                unset($_POST);
+            }
         } elseif ($count_email > 0) {
             echo 'Cette adresse mail existe déja !';
             unset($_POST);
@@ -62,7 +62,40 @@ function connexion($email, $password)
 function affichageProduits()
 {
     global $conn;
-    $sth = $conn->prepare('SELECT p.*,c.categories_name,u.fullname FROM advert AS p LEFT JOIN categories AS c ON p.category_id = c.categories_id LEFT JOIN users AS u ON p.user_id = u.id');
+    $sth = $conn->prepare('SELECT p.*,c.categories_name,u.fullname FROM advert AS p INNER JOIN categories AS c ON p.category_id = c.categories_id INNER JOIN users AS u ON p.user_id = u.id');
+    $sth->execute();
+
+    $products = $sth->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($products as $product) {
+        ?>
+<tr>
+    <th scope="row"><?php echo $product['advert_id']; ?>
+    </th>
+    <td><?php echo $product['advert_name']; ?>
+    </td>
+    <td><?php echo $product['description']; ?>
+    </td>
+    <td><?php echo $product['price']; ?>
+    </td>
+    <td><?php echo $product['adress']; ?>
+    </td>
+    <td><?php echo $product['categories_name']; ?>
+    </td>
+    <td><?php echo $product['fullname']; ?>
+    </td>
+    <td> <a
+            href="advert.php/?id=<?php echo $product['advert_id']; ?>">Afficher
+            article</a>
+    </td>
+</tr>
+<?php
+    }
+}
+
+function affichageProduitsByUser($id)
+{
+    global $conn;
+    $sth = $conn->prepare("SELECT p.*,c.categories_name,u.fullname FROM advert AS p INNER JOIN categories AS c ON p.category_id = c.categories_id INNER JOIN users AS u ON p.user_id = u.id WHERE p.user_id={$id}");
     $sth->execute();
 
     $products = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -136,6 +169,22 @@ function ajoutProduits($name, $description, $price, $adress, $category, $user_id
         } catch (PDOException $e) {
             echo 'Error: '.$e->getMessage();
         }
+    }
+}
+
+function suppProduits($user_id, $ad_id)
+{
+    global $conn;
+    // Tentative de la requête de suppression.
+    try {
+        $sth = $conn->prepare('DELETE FROM advert WHERE ad_id = :ad_id AND user_id =:user_id');
+        $sth->bindValue(':user_id', $user_id);
+        $sth->bindValue(':ad_id', $ad_id);
+        if ($sth->execute()) {
+            header('Location:profil.php?s');
+        }
+    } catch (PDOException $e) {
+        echo 'Error: '.$e->getMessage();
     }
 }
 
